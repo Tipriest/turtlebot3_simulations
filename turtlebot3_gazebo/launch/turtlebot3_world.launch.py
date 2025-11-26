@@ -23,6 +23,7 @@ from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 
 
 def generate_launch_description():
@@ -68,6 +69,33 @@ def generate_launch_description():
             'y_pose': y_pose
         }.items()
     )
+    
+    joystick_node_cmd = Node(
+        package='joystick_node',
+        executable='joystick_node',
+        name='joystick_node',
+        output='screen',
+        parameters=[{
+            'joystick_type': 'ps5',
+            'joystick_device': '/dev/input/js0',
+            'joystick_bits': 16
+        }],
+        remappings=[
+            ('/joystick_msg', '/robot_control/joystick_msgs'),
+            # ('cmd_vel', '/cmd_vel')
+        ]
+    )
+    
+    joystick_to_cmdvel_node_cmd = Node(
+        package='joystick_to_cmdvel',
+        executable='joystick_to_cmdvel_node',
+        name='joystick_to_cmdvel_node',
+        output='screen',
+        remappings=[
+            ('joy', '/robot_control/joystick_msgs'),
+            ('cmd_vel', '/cmd_vel')
+        ]
+    )
 
     ld = LaunchDescription()
 
@@ -76,5 +104,7 @@ def generate_launch_description():
     ld.add_action(gzclient_cmd)
     ld.add_action(robot_state_publisher_cmd)
     ld.add_action(spawn_turtlebot_cmd)
+    ld.add_action(joystick_node_cmd)
+    ld.add_action(joystick_to_cmdvel_node_cmd)
 
     return ld
