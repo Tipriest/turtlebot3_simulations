@@ -62,7 +62,7 @@
           <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/tipriest/Downloads/00829_withground.stl</uri>
+              <uri>model://home_scene/meshes/00829_withground.stl</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -83,7 +83,7 @@
           <pose frame=''>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/home/tipriest/Downloads/00829_withground.stl</uri>
+              <uri>model://home_scene/meshes/00829_withground.stl</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
